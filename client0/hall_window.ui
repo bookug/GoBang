@@ -1,0 +1,269 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>HallWindow</class>
+ <widget class="QWidget" name="HallWindow">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>950</width>
+    <height>800</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>Form</string>
+  </property>
+  <widget class="QLabel" name="HallTitle">
+   <property name="geometry">
+    <rect>
+     <x>10</x>
+     <y>10</y>
+     <width>701</width>
+     <height>91</height>
+    </rect>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">background-color: #E2C9A5;
+font: 75 36pt &quot;微软雅黑&quot;;</string>
+   </property>
+   <property name="text">
+    <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p align=&quot;center&quot;&gt;&lt;span style=&quot; color:#ffffff;&quot;&gt;五 &lt;/span&gt;&lt;span style=&quot; color:#000000;&quot;&gt;子&lt;/span&gt;&lt;span style=&quot; color:#ffffff;&quot;&gt; 棋&lt;/span&gt; 游 戏 大 厅&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+   </property>
+  </widget>
+  <widget class="QTableWidget" name="Tables">
+   <property name="geometry">
+    <rect>
+     <x>10</x>
+     <y>110</y>
+     <width>701</width>
+     <height>511</height>
+    </rect>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">background-color: #51719E;</string>
+   </property>
+  </widget>
+  <widget class="QLabel" name="RankListTitle">
+   <property name="geometry">
+    <rect>
+     <x>720</x>
+     <y>10</y>
+     <width>221</width>
+     <height>41</height>
+    </rect>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">background-color: #E2C9A5;
+font: 75 18pt &quot;微软雅黑&quot;;</string>
+   </property>
+   <property name="text">
+    <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p align=&quot;center&quot;&gt;排行榜&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+   </property>
+  </widget>
+  <widget class="QTableWidget" name="RankList">
+   <property name="geometry">
+    <rect>
+     <x>720</x>
+     <y>60</y>
+     <width>221</width>
+     <height>381</height>
+    </rect>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">background-color: #E2C9A5;</string>
+   </property>
+   <property name="showGrid">
+    <bool>true</bool>
+   </property>
+   <property name="gridStyle">
+    <enum>Qt::NoPen</enum>
+   </property>
+   <property name="columnCount">
+    <number>5</number>
+   </property>
+   <column>
+    <property name="text">
+     <string>姓名</string>
+    </property>
+   </column>
+   <column>
+    <property name="text">
+     <string>胜绩</string>
+    </property>
+   </column>
+   <column>
+    <property name="text">
+     <string>积分</string>
+    </property>
+   </column>
+   <column>
+    <property name="text">
+     <string>平手</string>
+    </property>
+   </column>
+   <column>
+    <property name="text">
+     <string>败绩</string>
+    </property>
+   </column>
+  </widget>
+  <widget class="QLabel" name="OnlineListTitle">
+   <property name="geometry">
+    <rect>
+     <x>720</x>
+     <y>450</y>
+     <width>221</width>
+     <height>41</height>
+    </rect>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">background-color: #E2C9A5;
+font: 75 18pt &quot;微软雅黑&quot;;</string>
+   </property>
+   <property name="text">
+    <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p align=&quot;center&quot;&gt;当前在线&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+   </property>
+  </widget>
+  <widget class="QTableWidget" name="OnlineList">
+   <property name="geometry">
+    <rect>
+     <x>720</x>
+     <y>500</y>
+     <width>221</width>
+     <height>291</height>
+    </rect>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">background-color: #E2C9A5;</string>
+   </property>
+   <column>
+    <property name="text">
+     <string>姓名</string>
+    </property>
+   </column>
+   <column>
+    <property name="text">
+     <string>胜绩</string>
+    </property>
+   </column>
+   <column>
+    <property name="text">
+     <string>积分</string>
+    </property>
+   </column>
+   <column>
+    <property name="text">
+     <string>平手</string>
+    </property>
+   </column>
+   <column>
+    <property name="text">
+     <string>负绩</string>
+    </property>
+   </column>
+  </widget>
+  <widget class="QWidget" name="ChatBox" native="true">
+   <property name="geometry">
+    <rect>
+     <x>10</x>
+     <y>630</y>
+     <width>701</width>
+     <height>161</height>
+    </rect>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">background-color: #E2C9A5;</string>
+   </property>
+   <widget class="QPlainTextEdit" name="MessageText">
+    <property name="geometry">
+     <rect>
+      <x>10</x>
+      <y>10</y>
+      <width>681</width>
+      <height>101</height>
+     </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">background-color: #FFFFFF;</string>
+    </property>
+    <property name="readOnly">
+     <bool>true</bool>
+    </property>
+    <property name="centerOnScroll">
+     <bool>false</bool>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="SendButton">
+    <property name="geometry">
+     <rect>
+      <x>620</x>
+      <y>120</y>
+      <width>71</width>
+      <height>31</height>
+     </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">background-color: rgb(255, 170, 127);
+font: 100 11pt &quot;微软雅黑&quot;;</string>
+    </property>
+    <property name="text">
+     <string>发 送</string>
+    </property>
+    <property name="shortcut">
+     <string>Return</string>
+    </property>
+   </widget>
+   <widget class="QTextEdit" name="InputText">
+    <property name="geometry">
+     <rect>
+      <x>10</x>
+      <y>120</y>
+      <width>601</width>
+      <height>31</height>
+     </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">background-color: #FFFFFF;</string>
+    </property>
+   </widget>
+  </widget>
+  <action name="actionSendMessage">
+   <property name="text">
+    <string>SendMessage</string>
+   </property>
+   <property name="toolTip">
+    <string>发送消息</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+Return</string>
+   </property>
+  </action>
+ </widget>
+ <tabstops>
+  <tabstop>InputText</tabstop>
+  <tabstop>SendButton</tabstop>
+  <tabstop>MessageText</tabstop>
+  <tabstop>Tables</tabstop>
+  <tabstop>RankList</tabstop>
+  <tabstop>OnlineList</tabstop>
+ </tabstops>
+ <resources/>
+ <connections>
+  <connection>
+   <sender>actionSendMessage</sender>
+   <signal>triggered()</signal>
+   <receiver>SendButton</receiver>
+   <slot>click()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>-1</x>
+     <y>-1</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>665</x>
+     <y>765</y>
+    </hint>
+   </hints>
+  </connection>
+ </connections>
+</ui>

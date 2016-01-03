@@ -1,0 +1,758 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>ChessRoomWindow</class>
+ <widget class="QWidget" name="ChessRoomWindow">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>948</width>
+    <height>800</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>Form</string>
+  </property>
+  <property name="styleSheet">
+   <string notr="true">background-color: #517191;</string>
+  </property>
+  <widget class="QLabel" name="RoomTitle">
+   <property name="geometry">
+    <rect>
+     <x>205</x>
+     <y>10</y>
+     <width>541</width>
+     <height>71</height>
+    </rect>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">background-color: #E2C9A5;
+
+
+font:75 28pt &quot;微软雅黑&quot;;</string>
+   </property>
+   <property name="text">
+    <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;决 &lt;span style=&quot; color:#ffffff;&quot;&gt;战&lt;/span&gt; 五 &lt;span style=&quot; color:#ffffff;&quot;&gt;子&lt;/span&gt; 棋&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+   </property>
+   <property name="alignment">
+    <set>Qt::AlignCenter</set>
+   </property>
+  </widget>
+  <widget class="QWidget" name="ChessBoardBackground" native="true">
+   <property name="geometry">
+    <rect>
+     <x>200</x>
+     <y>90</y>
+     <width>551</width>
+     <height>531</height>
+    </rect>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">background-color: #8D4A27;</string>
+   </property>
+   <widget class="QWidget" name="ChessBoard" native="true">
+    <property name="geometry">
+     <rect>
+      <x>30</x>
+      <y>20</y>
+      <width>490</width>
+      <height>490</height>
+     </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">background-color: #DEBA6A;</string>
+    </property>
+   </widget>
+  </widget>
+  <widget class="QWidget" name="ChatBox" native="true">
+   <property name="geometry">
+    <rect>
+     <x>10</x>
+     <y>630</y>
+     <width>921</width>
+     <height>161</height>
+    </rect>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">background-color: #E2C9A5;</string>
+   </property>
+   <widget class="QTextEdit" name="InputText">
+    <property name="geometry">
+     <rect>
+      <x>10</x>
+      <y>120</y>
+      <width>821</width>
+      <height>31</height>
+     </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">background-color: rgb(255, 255, 255);</string>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="SendButton">
+    <property name="geometry">
+     <rect>
+      <x>840</x>
+      <y>120</y>
+      <width>71</width>
+      <height>31</height>
+     </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">background-color: rgb(255, 170, 127);
+font: 75 11pt &quot;微软雅黑&quot;;</string>
+    </property>
+    <property name="text">
+     <string>发 送</string>
+    </property>
+   </widget>
+   <widget class="QPlainTextEdit" name="MessageText">
+    <property name="geometry">
+     <rect>
+      <x>10</x>
+      <y>10</y>
+      <width>901</width>
+      <height>101</height>
+     </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">background-color: rgb(255, 255, 255);</string>
+    </property>
+   </widget>
+  </widget>
+  <widget class="QWidget" name="MyInfoBox" native="true">
+   <property name="geometry">
+    <rect>
+     <x>10</x>
+     <y>320</y>
+     <width>181</width>
+     <height>301</height>
+    </rect>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">background-color: #E2C9A5;</string>
+   </property>
+   <widget class="QLabel" name="LabelNickName">
+    <property name="geometry">
+     <rect>
+      <x>20</x>
+      <y>90</y>
+      <width>51</width>
+      <height>31</height>
+     </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">font: 12pt &quot;微软雅黑&quot;;</string>
+    </property>
+    <property name="text">
+     <string>昵称：</string>
+    </property>
+   </widget>
+   <widget class="QLabel" name="LabelScore">
+    <property name="geometry">
+     <rect>
+      <x>20</x>
+      <y>120</y>
+      <width>51</width>
+      <height>31</height>
+     </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">font: 12pt &quot;微软雅黑&quot;;</string>
+    </property>
+    <property name="text">
+     <string>积分：</string>
+    </property>
+   </widget>
+   <widget class="QLabel" name="LabelWinTime">
+    <property name="geometry">
+     <rect>
+      <x>20</x>
+      <y>150</y>
+      <width>51</width>
+      <height>31</height>
+     </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">font: 12pt &quot;微软雅黑&quot;;</string>
+    </property>
+    <property name="text">
+     <string>胜绩：</string>
+    </property>
+   </widget>
+   <widget class="QLabel" name="LabelDrawTime">
+    <property name="geometry">
+     <rect>
+      <x>20</x>
+      <y>180</y>
+      <width>51</width>
+      <height>31</height>
+     </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">font: 12pt &quot;微软雅黑&quot;;</string>
+    </property>
+    <property name="text">
+     <string>平绩：</string>
+    </property>
+   </widget>
+   <widget class="QLabel" name="LabelLoseTime">
+    <property name="geometry">
+     <rect>
+      <x>20</x>
+      <y>210</y>
+      <width>51</width>
+      <height>31</height>
+     </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">font: 12pt &quot;微软雅黑&quot;;</string>
+    </property>
+    <property name="text">
+     <string>败绩：</string>
+    </property>
+   </widget>
+   <widget class="QLabel" name="Draw">
+    <property name="geometry">
+     <rect>
+      <x>80</x>
+      <y>180</y>
+      <width>81</width>
+      <height>31</height>
+     </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">font: 12pt &quot;微软雅黑&quot;;</string>
+    </property>
+    <property name="text">
+     <string>平绩</string>
+    </property>
+   </widget>
+   <widget class="QLabel" name="NickName">
+    <property name="geometry">
+     <rect>
+      <x>80</x>
+      <y>90</y>
+      <width>81</width>
+      <height>31</height>
+     </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">font: 12pt &quot;微软雅黑&quot;;</string>
+    </property>
+    <property name="text">
+     <string>昵称</string>
+    </property>
+   </widget>
+   <widget class="QLabel" name="Score">
+    <property name="geometry">
+     <rect>
+      <x>80</x>
+      <y>120</y>
+      <width>81</width>
+      <height>31</height>
+     </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">font: 12pt &quot;微软雅黑&quot;;</string>
+    </property>
+    <property name="text">
+     <string>积分</string>
+    </property>
+   </widget>
+   <widget class="QLabel" name="LoseTime">
+    <property name="geometry">
+     <rect>
+      <x>80</x>
+      <y>210</y>
+      <width>81</width>
+      <height>31</height>
+     </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">font: 12pt &quot;微软雅黑&quot;;</string>
+    </property>
+    <property name="text">
+     <string>败绩</string>
+    </property>
+   </widget>
+   <widget class="QLabel" name="WinTime">
+    <property name="geometry">
+     <rect>
+      <x>80</x>
+      <y>150</y>
+      <width>81</width>
+      <height>31</height>
+     </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">font: 12pt &quot;微软雅黑&quot;;</string>
+    </property>
+    <property name="text">
+     <string>胜绩</string>
+    </property>
+   </widget>
+   <widget class="QLabel" name="LabelSide">
+    <property name="geometry">
+     <rect>
+      <x>20</x>
+      <y>60</y>
+      <width>51</width>
+      <height>31</height>
+     </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">font: 12pt &quot;微软雅黑&quot;;</string>
+    </property>
+    <property name="text">
+     <string>方向：</string>
+    </property>
+   </widget>
+   <widget class="QLabel" name="Side">
+    <property name="geometry">
+     <rect>
+      <x>80</x>
+      <y>60</y>
+      <width>81</width>
+      <height>31</height>
+     </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">font: 12pt &quot;微软雅黑&quot;;</string>
+    </property>
+    <property name="text">
+     <string>方向</string>
+    </property>
+   </widget>
+   <widget class="QLabel" name="State">
+    <property name="geometry">
+     <rect>
+      <x>80</x>
+      <y>240</y>
+      <width>81</width>
+      <height>31</height>
+     </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">font: 12pt &quot;微软雅黑&quot;;
+color: rgb(255, 0, 0);</string>
+    </property>
+    <property name="text">
+     <string>状态</string>
+    </property>
+   </widget>
+   <widget class="QLabel" name="LabelState">
+    <property name="geometry">
+     <rect>
+      <x>20</x>
+      <y>240</y>
+      <width>51</width>
+      <height>31</height>
+     </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">font: 12pt &quot;微软雅黑&quot;;</string>
+    </property>
+    <property name="text">
+     <string>状态：</string>
+    </property>
+   </widget>
+   <widget class="QLabel" name="LabelState_3">
+    <property name="geometry">
+     <rect>
+      <x>50</x>
+      <y>20</y>
+      <width>51</width>
+      <height>31</height>
+     </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">font: 16pt &quot;微软雅黑&quot;;</string>
+    </property>
+    <property name="text">
+     <string>我 方</string>
+    </property>
+   </widget>
+  </widget>
+  <widget class="QWidget" name="ControlBox" native="true">
+   <property name="geometry">
+    <rect>
+     <x>760</x>
+     <y>10</y>
+     <width>171</width>
+     <height>611</height>
+    </rect>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">background-color: #E2C9A5;</string>
+   </property>
+   <widget class="QPushButton" name="ReadyButton">
+    <property name="geometry">
+     <rect>
+      <x>20</x>
+      <y>400</y>
+      <width>131</width>
+      <height>51</height>
+     </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">font: 16pt &quot;微软雅黑&quot;;</string>
+    </property>
+    <property name="text">
+     <string>准 备</string>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="AdmitDefeatButton">
+    <property name="geometry">
+     <rect>
+      <x>20</x>
+      <y>470</y>
+      <width>131</width>
+      <height>51</height>
+     </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">font: 16pt &quot;微软雅黑&quot;;</string>
+    </property>
+    <property name="text">
+     <string>认 输</string>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="UndoButton">
+    <property name="geometry">
+     <rect>
+      <x>20</x>
+      <y>540</y>
+      <width>131</width>
+      <height>51</height>
+     </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">font: 16pt &quot;微软雅黑&quot; ;</string>
+    </property>
+    <property name="text">
+     <string>悔 棋</string>
+    </property>
+   </widget>
+   <widget class="QPlainTextEdit" name="LiveText">
+    <property name="geometry">
+     <rect>
+      <x>10</x>
+      <y>50</y>
+      <width>151</width>
+      <height>341</height>
+     </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">background-color: rgb(255, 255, 255);
+font: 10pt &quot;微软雅黑&quot;;</string>
+    </property>
+    <property name="readOnly">
+     <bool>true</bool>
+    </property>
+    <property name="plainText">
+     <string/>
+    </property>
+   </widget>
+   <widget class="QLabel" name="LiveTitle">
+    <property name="geometry">
+     <rect>
+      <x>10</x>
+      <y>10</y>
+      <width>151</width>
+      <height>31</height>
+     </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">font: 13pt &quot;微软雅黑&quot;;</string>
+    </property>
+    <property name="text">
+     <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;文 字 直 播&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+    </property>
+    <property name="alignment">
+     <set>Qt::AlignCenter</set>
+    </property>
+   </widget>
+  </widget>
+  <widget class="QWidget" name="EnemyInfoBox" native="true">
+   <property name="geometry">
+    <rect>
+     <x>10</x>
+     <y>10</y>
+     <width>181</width>
+     <height>301</height>
+    </rect>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">background-color: #E2C9A5;</string>
+   </property>
+   <widget class="QLabel" name="LabelNickName_2">
+    <property name="geometry">
+     <rect>
+      <x>20</x>
+      <y>90</y>
+      <width>51</width>
+      <height>31</height>
+     </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">font: 12pt &quot;微软雅黑&quot;;</string>
+    </property>
+    <property name="text">
+     <string>昵称：</string>
+    </property>
+   </widget>
+   <widget class="QLabel" name="LabelScore_2">
+    <property name="geometry">
+     <rect>
+      <x>20</x>
+      <y>120</y>
+      <width>51</width>
+      <height>31</height>
+     </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">font: 12pt &quot;微软雅黑&quot;;</string>
+    </property>
+    <property name="text">
+     <string>积分：</string>
+    </property>
+   </widget>
+   <widget class="QLabel" name="LabelWinTime_2">
+    <property name="geometry">
+     <rect>
+      <x>20</x>
+      <y>150</y>
+      <width>51</width>
+      <height>31</height>
+     </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">font: 12pt &quot;微软雅黑&quot;;</string>
+    </property>
+    <property name="text">
+     <string>胜绩：</string>
+    </property>
+   </widget>
+   <widget class="QLabel" name="LabelDrawTime_2">
+    <property name="geometry">
+     <rect>
+      <x>20</x>
+      <y>180</y>
+      <width>51</width>
+      <height>31</height>
+     </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">font: 12pt &quot;微软雅黑&quot;;</string>
+    </property>
+    <property name="text">
+     <string>平绩：</string>
+    </property>
+   </widget>
+   <widget class="QLabel" name="LabelLoseTime_2">
+    <property name="geometry">
+     <rect>
+      <x>20</x>
+      <y>210</y>
+      <width>51</width>
+      <height>31</height>
+     </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">font: 12pt &quot;微软雅黑&quot;;</string>
+    </property>
+    <property name="text">
+     <string>败绩：</string>
+    </property>
+   </widget>
+   <widget class="QLabel" name="EnemyDrawTime">
+    <property name="geometry">
+     <rect>
+      <x>80</x>
+      <y>180</y>
+      <width>81</width>
+      <height>31</height>
+     </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">font: 12pt &quot;微软雅黑&quot;;</string>
+    </property>
+    <property name="text">
+     <string>平绩</string>
+    </property>
+   </widget>
+   <widget class="QLabel" name="EnemyNickName">
+    <property name="geometry">
+     <rect>
+      <x>80</x>
+      <y>90</y>
+      <width>81</width>
+      <height>31</height>
+     </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">font: 12pt &quot;微软雅黑&quot;;</string>
+    </property>
+    <property name="text">
+     <string>昵称</string>
+    </property>
+   </widget>
+   <widget class="QLabel" name="EnemyScore">
+    <property name="geometry">
+     <rect>
+      <x>80</x>
+      <y>120</y>
+      <width>81</width>
+      <height>31</height>
+     </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">font: 12pt &quot;微软雅黑&quot;;</string>
+    </property>
+    <property name="text">
+     <string>积分</string>
+    </property>
+   </widget>
+   <widget class="QLabel" name="EnemyLoseTime">
+    <property name="geometry">
+     <rect>
+      <x>80</x>
+      <y>210</y>
+      <width>81</width>
+      <height>31</height>
+     </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">font: 12pt &quot;微软雅黑&quot;;</string>
+    </property>
+    <property name="text">
+     <string>败绩</string>
+    </property>
+   </widget>
+   <widget class="QLabel" name="EnemyWinTime">
+    <property name="geometry">
+     <rect>
+      <x>80</x>
+      <y>150</y>
+      <width>81</width>
+      <height>31</height>
+     </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">font: 12pt &quot;微软雅黑&quot;;</string>
+    </property>
+    <property name="text">
+     <string>胜绩</string>
+    </property>
+   </widget>
+   <widget class="QLabel" name="LabelSide_2">
+    <property name="geometry">
+     <rect>
+      <x>20</x>
+      <y>60</y>
+      <width>51</width>
+      <height>31</height>
+     </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">font: 12pt &quot;微软雅黑&quot;;</string>
+    </property>
+    <property name="text">
+     <string>方向：</string>
+    </property>
+   </widget>
+   <widget class="QLabel" name="EnemySide">
+    <property name="geometry">
+     <rect>
+      <x>80</x>
+      <y>60</y>
+      <width>81</width>
+      <height>31</height>
+     </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">font: 12pt &quot;微软雅黑&quot;;</string>
+    </property>
+    <property name="text">
+     <string>方向</string>
+    </property>
+   </widget>
+   <widget class="QLabel" name="EnemyState">
+    <property name="geometry">
+     <rect>
+      <x>80</x>
+      <y>240</y>
+      <width>81</width>
+      <height>31</height>
+     </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">font: 12pt &quot;微软雅黑&quot;;
+color: rgb(255, 0, 0);</string>
+    </property>
+    <property name="text">
+     <string>状态</string>
+    </property>
+   </widget>
+   <widget class="QLabel" name="LabelState_2">
+    <property name="geometry">
+     <rect>
+      <x>20</x>
+      <y>240</y>
+      <width>51</width>
+      <height>31</height>
+     </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">font: 12pt &quot;微软雅黑&quot;;</string>
+    </property>
+    <property name="text">
+     <string>状态：</string>
+    </property>
+   </widget>
+   <widget class="QLabel" name="LabelState_4">
+    <property name="geometry">
+     <rect>
+      <x>50</x>
+      <y>20</y>
+      <width>51</width>
+      <height>31</height>
+     </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">font: 16pt &quot;微软雅黑&quot;;</string>
+    </property>
+    <property name="text">
+     <string>敌 方</string>
+    </property>
+   </widget>
+   <zorder>LabelNickName_2</zorder>
+   <zorder>LabelScore_2</zorder>
+   <zorder>LabelWinTime_2</zorder>
+   <zorder>LabelLoseTime_2</zorder>
+   <zorder>EnemyDrawTime</zorder>
+   <zorder>EnemyNickName</zorder>
+   <zorder>EnemyScore</zorder>
+   <zorder>EnemyLoseTime</zorder>
+   <zorder>EnemyWinTime</zorder>
+   <zorder>LabelSide_2</zorder>
+   <zorder>EnemySide</zorder>
+   <zorder>EnemyState</zorder>
+   <zorder>LabelState_2</zorder>
+   <zorder>LabelDrawTime_2</zorder>
+   <zorder>LabelState_4</zorder>
+  </widget>
+ </widget>
+ <tabstops>
+  <tabstop>InputText</tabstop>
+  <tabstop>SendButton</tabstop>
+  <tabstop>MessageText</tabstop>
+  <tabstop>ReadyButton</tabstop>
+  <tabstop>AdmitDefeatButton</tabstop>
+  <tabstop>UndoButton</tabstop>
+  <tabstop>LiveText</tabstop>
+ </tabstops>
+ <resources/>
+ <connections/>
+</ui>

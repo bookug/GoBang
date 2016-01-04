@@ -10,6 +10,7 @@ import time
 from windows import LoginWindow, HallWindow, RoomWindow
 from client import Client, ClientThread
 from util import Util, GameState, PlayerSide, PlayerState
+from util import *
 from board import Board, Desk
 from service import RoomService
 
@@ -139,23 +140,23 @@ class Room(QWidget):
             self.side = side
             self.state = state
             self.ui.Score.setText(str(Util.GetScore(winTimes,loseTimes,drawTimes)))
-            if self.state == PlayerState.NotReady:
+            if self.state == PlayerState.NOT_READY:
                 self.ui.ReadyButton.setDisabled(False)
                 self.ui.AdmitDefeatButton.setDisabled(True)
                 self.ui.UndoButton.setDisabled(True)
-            elif self.state == PlayerState.Ready:
+            elif self.state == PlayerState.READY:
                 self.ui.ReadyButton.setDisabled(True)
                 self.ui.AdmitDefeatButton.setDisabled(False)
                 self.ui.UndoButton.setDisabled(False)
-            elif self.state == PlayerState.TakingChess:#todo
+            elif self.state == PlayerState.TAKING_CHESS:
                 self.ui.ReadyButton.setDisabled(True)
                 self.ui.AdmitDefeatButton.setDisabled(False)
                 self.ui.UndoButton.setDisabled(False)
-            elif self.state == PlayerState.WaitingForTaking:
+            elif self.state == PlayerState.WAITING_FOR_TAKING:
                 self.ui.ReadyButton.setDisabled(True)
                 self.ui.AdmitDefeatButton.setDisabled(False)
                 self.ui.UndoButton.setDisabled(False)
-            elif self.state == PlayerState.WaitingForUndo:
+            elif self.state == PlayerState.WAITING_FOR_UNDO:
                 self.ui.ReadyButton.setDisabled(True)
                 self.ui.AdmitDefeatButton.setDisabled(False)
                 self.ui.UndoButton.setDisabled(True)
@@ -242,8 +243,8 @@ class Hall(QWidget):
     def updateHallWithServer(self):
         self.director.clientThread.client.sendToServer(1002,1001,{})
 
-    def createDesk(self,rowNum,colNum):
-        return Desk(rowNum*self.tableColNum+colNum+1)
+    def createDesk(self, rowNum, colNum):
+        return Desk(rowNum*self.tableColNum + colNum + 1)
 
     def setDesk(self,desk,rowNum,colNum):
             layout = QHBoxLayout(desk)
@@ -298,17 +299,13 @@ class Hall(QWidget):
         self.connect(self.director.clientThread.client.dispatcher.services[1002],\
                      SIGNAL("chooseDeskFail(int,int)"),self.chooseDeskFail)
 
-    @staticmethod
-    def getIDFromRowAndColNum(rowNum,colNum):
-        return rowNum*5 + colNum + 1
-
     def chooseDeskSuccess(self,rowNum,colNum,playersNum):
         print "choose desk successfully:",playersNum
         desk = self.createDesk(rowNum,colNum)
         if playersNum>0:
             print "CreateAndShowingRoom"
-            roomID = Hall.getIDFromRowAndColNum(rowNum,colNum)
-            self.room = Room(Hall.getIDFromRowAndColNum(rowNum,colNum),self.director)
+            roomID = Util.getIDFromRowAndColNum(rowNum,colNum)
+            self.room = Room(Util.getIDFromRowAndColNum(rowNum,colNum),self.director)
             QMessageBox.about(self,u"enter room successfully!",u"welcome to #%d room"%roomID)
             self.room.show()
 
@@ -352,14 +349,14 @@ class Hall(QWidget):
             desk = self.createDesk(rowNum,colNum)
 
             if(playersNum == 0):
-                desk.state = GameState.Empty
+                desk.state = GameState.EMPTY
             elif playersNum == 1:
-                desk.state = GameState.OnlyLeftPersonWaiting
+                desk.state = GameState.ONLY_LEFT_PERSON_WAITING
             elif playersNum == 2:
                 if isPlaying :
-                    desk.state = GameState.Playing
+                    desk.state = GameState.PLAYING
                 else:
-                    desk.state = GameState.TwoPersonWaiting
+                    desk.state = GameState.TWO_PERSON_WAITING
 
             self.setDesk(desk,rowNum,colNum)
 
@@ -388,7 +385,7 @@ class Login(QWidget):
             self.director.clientThread = ClientThread(self.director)
             client = Client(8,str(self.ui.ServerIPText.text()),self.ui.PortNumberText.text().toInt()[0],0.1,self.director.clientThread)
             self.director.clientThread.begin(client)
-            self.director.connectSlotAndSignalWithServices()
+            self.connectWithService()
         else:
             self.director.clientThread.client.close()
             self.director.clientThread.client.isAlive = False
@@ -396,8 +393,7 @@ class Login(QWidget):
             client = Client(8,str(self.ui.ServerIPText.text()),self.ui.PortNumberText.text().toInt()[0],0.1,self.director.clientThread)
             self.director.clientThread.begin(client)
             print "get another client"
-            self.director.connectSlotAndSignalWithServices()
-            #this just call connectWithService, can be done here!
+            self.connectWithService()
         data = {}
         data['nickname'] = unicode(self.ui.NicknameText.text())
         data['password'] = unicode(self.ui.PasswordText.text())

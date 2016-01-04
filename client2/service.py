@@ -84,12 +84,12 @@ class RoomService(Service):
             player['win_times'] = 0
             player['lose_times'] = 0
             player['draw_times'] = 0
-            player['state'] = PlayerState.NotReady
+            player['state'] = PlayerState.NOT_READY
             otherSide = players[players.keys()[0]]['side']
-            if otherSide == PlayerSide.Black:
-                player['side'] = PlayerSide.White
+            if otherSide == PlayerSide.BLACK:
+                player['side'] = PlayerSide.WHITE
             else:
-                player['side'] = PlayerSide.Black
+                player['side'] = PlayerSide.BLACK
             players[-1] = player
 
         for connectID in players:

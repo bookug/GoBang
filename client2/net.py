@@ -2,6 +2,8 @@
 
 __author__ = 'zengli'
 
+#NTC: keep almostly same as in server/
+
 #======================================================================
 #
 # NetStream.py - network data stream operation interface

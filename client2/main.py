@@ -12,14 +12,14 @@ import sys
 #multiple app can be loaded here
 
 class GoBang(QObject):
-    gobang = None
+    #gobang = None
 
-    @classmethod
-    def GetGoBang(cls):
-        if cls.gobang == None:
-            return GoBang()
-        else:
-            return cls.gobang
+    #@classmethod
+    #def GetGoBang(cls):
+    #    if cls.gobang == None:
+    #        return GoBang()
+    #    else:
+    #        return cls.gobang
 
     def __init__(self):
         QObject.__init__(self,None)
@@ -32,20 +32,16 @@ class GoBang(QObject):
         self.chessRoom = None
         self.playerNickname = ""
 
-    def connectSlotAndSignalWithServices(self):
-        self.loginWindow.connectWithService()
-
     def serverCrashedAlert(self):
         QMessageBox.about(None, u"server crashed", u"server is crashed!")
 
     def run(self):
-        app = QApplication(sys.argv)
         self.loginWindow.show()
-        sys.exit(app.exec_())
-
 
 if __name__ == '__main__':
+    #this app is needed in here, main program
     app = QApplication(sys.argv)
-    GoBang.GetGoBang().loginWindow.show()
+    #GoBang.GetGoBang().loginWindow.show()
+    GoBang().run()
     sys.exit(app.exec_())
 

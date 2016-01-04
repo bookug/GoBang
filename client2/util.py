@@ -3,10 +3,17 @@
 __author__ = 'zengli'
 
 #this is the lower level of package except built-in 
+import math
 
 class Util:
     def __init__(self):
         print "hello, this is util!"
+
+    @staticmethod
+    def getRowAndColumnNum(ID):
+        row = math.floor((ID - 1) / 5)
+        col = (ID - 1) % 5
+        return row, col
 
     @staticmethod
     def getRowAndColNumber(roomID):
@@ -14,96 +21,102 @@ class Util:
         colNum = (roomID-1)%5
         return rowNum,colNum
 
-    @staticmethod   #no self included
-    def GetScore(winTimes,loseTimes,drawTimes):
+    @staticmethod   #no self included, can be called by others
+    def GetScore(winTimes, loseTimes, drawTimes):
         return winTimes * 10 - loseTimes * 8
 
+    @staticmethod
+    def getIDFromRowAndColNum(rowNum, colNum):
+        return rowNum * 5 + colNum + 1
+
+#NTC: keep almostly same as in server/
+
 class CellState:
-    White = 0
-    Black = 1
-    Empty = 2
+    EMPTY = 2
+    WHITE = 0
+    BLACK = 1
     StateDict = {\
+        2   :   u"empty",\
         0   :   u"white",\
         1   :   u"black",\
-        2   :   u"empty"\
         }
 
 class PlayerSide:
-    White = 0
-    Black = 1
+    WHITE = 0
+    BLACK = 1
     StateDict = {\
-        0:u"white",\
-        1:u"black"\
+        0 : u"white",\
+        1 : u"black"\
         }
 
 class PlayerState:
-    NotReady = 0
-    Ready = 1
-    TakingChess = 2
-    WaitingForTaking = 3
-    WaitingForUndo = 4
-    MakingDecisionForUndo = 5
+    NOT_READY = 0
+    READY = 1
+    TAKING_CHESS = 2
+    WAITING_FOR_TAKING = 3
+    WAITING_FOR_UNDO = 4
+    MAKING_DECISION_FOR_UNDO = 5
     StateDict = {\
-        0:u'not prepared',
-        1:u'well prepared',
-        2:u'thinking...',
-        3:u'waiting...',
-        4:u'request to withdraw',
-        5:u'whether to withdraw'
+        0 : u'not prepared',
+        1 : u'well prepared',
+        2 : u'thinking...',
+        3 : u'waiting...',
+        4 : u'request to withdraw',
+        5 : u'whether to withdraw'
         }
 
 class Configure:
-    padding = 20
-    cellWidth = 32
-    cellHeight = 32
-    rowSize = 15
-    colSize = 15
+    PADDING = 20
+    CELL_WIDTH = 32
+    CELL_HEIGHT = 32
+    ROW_SIZE = 15
+    COL_SIZE = 15
     #for Desk
-    backgroundWidth = 121
-    backgroundHeight = 119
-    playerWidth = 32
-    playerHeight = 32
+    BACKGROUND_WIDTH = 121
+    BACKGROUND_HEIGHT = 119
+    PLAYER_WIDTH = 32
+    PLAYER_HEIGHT = 32
 
 class Direction:
-    Left = 0
-    Right = 1
-    Down = 2
-    Up = 3
-    UpLeft = 4
-    DownRight = 5
-    UpRight = 6
-    DownLeft = 7
+    LEFT = 0
+    RIGHT = 1
+    DOWN = 2
+    UP = 3
+    UP_LEFT = 4
+    DOWN_RIGHT = 5
+    UP_RIGHT = 6
+    DOWN_LEFT = 7
 
 class GameState:
-    Empty = 0
-    OnlyLeftPersonWaiting = 1
-    OnlyRightPersonWaiting = 2
-    TwoPersonWaiting = 3;
-    Playing = 4;
+    EMPTY = 0
+    ONLY_LEFT_PERSON_WAITING = 1
+    ONLY_RIGHT_PERSON_WAITING = 2
+    TWO_PERSON_WAITING = 3;
+    PLAYING = 4;
 
 def getCellLeftTopPosition(rowNum,colNum):
     '''
     number start from zero
     '''
-    x = Configure.padding + colNum * Configure.cellWidth - 0.5 * Configure.cellWidth
-    y = Configure.padding + rowNum * Configure.cellHeight - 0.5 * Configure.cellHeight
+    x = Configure.PADDING + colNum * Configure.CELL_WIDTH - 0.5 * Configure.CELL_WIDTH
+    y = Configure.PADDING + rowNum * Configure.CELL_HEIGHT - 0.5 * Configure.CELL_HEIGHT
     return x, y
 
 def getCellNumberFromPosition(x,y):
-    colNum, rowNum = int((x - Configure.padding + 0.5 * Configure.cellWidth )/Configure.cellWidth), int((y - Configure.padding + 0.5 * Configure.cellHeight)/Configure.cellHeight)
-    if colNum >= 0 and colNum < Configure.colSize and rowNum >= 0 and rowNum < Configure.rowSize :
+    colNum, rowNum = int((x - Configure.PADDING + 0.5 * Configure.CELL_WIDTH) / Configure.CELL_WIDTH), int((y - Configure.PADDING + 0.5 * Configure.CELL_HEIGHT) / Configure.CELL_HEIGHT)
+    if colNum >= 0 and colNum < Configure.COL_SIZE and rowNum >= 0 and rowNum < Configure.ROW_SIZE:
         return rowNum,colNum
     else:
         return -1,-1  #error
 
 def isRowNumValid(m):
-    if m < Configure.rowSize and m >= 0:
+    if m < Configure.ROW_SIZE and m >= 0:
         return True
     else:
         return False
 
 def isColNumValid(n):
-    if n < Configure.colSize and n >= 0:
+    if n < Configure.COL_SIZE and n >= 0:
         return True
     else:
         return False

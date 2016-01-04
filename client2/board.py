@@ -14,14 +14,14 @@ class Board(QtGui.QWidget):
     blackChessPixmap = None
     whiteChessPixmap = None
 
-    currentSide = CellState.White
+    currentSide = CellState.WHITE
 
     def initCellStates(self):
         self.boardCells = []
-        for m in xrange(Configure.rowSize):
+        for m in xrange(Configure.ROW_SIZE):
             boardRow = []
-            for n in xrange(Configure.colSize):
-                boardRow.append(CellState.Empty)
+            for n in xrange(Configure.COL_SIZE):
+                boardRow.append(CellState.EMPTY)
             self.boardCells.append(boardRow)
 
     def init(self):
@@ -39,17 +39,17 @@ class Board(QtGui.QWidget):
     #each time when moving, flush and rearrange
     def paintEvent(self, QPaintEvent):
         painter = QtGui.QPainter(self)
-        painter.drawPixmap(0, 0, Configure.padding * 2 + (Configure.colSize - 1) * Configure.cellWidth, Configure.padding * 2 + (Configure.rowSize - 1) * Configure.cellHeight, self.boardBackgroundPixmap)
-        for m in xrange(Configure.rowSize):
-            for n in xrange(Configure.colSize):
-                if self.boardCells[m][n] == CellState.White:
+        painter.drawPixmap(0, 0, Configure.PADDING * 2 + (Configure.COL_SIZE - 1) * Configure.CELL_WIDTH, Configure.PADDING * 2 + (Configure.ROW_SIZE - 1) * Configure.CELL_HEIGHT, self.boardBackgroundPixmap)
+        for m in xrange(Configure.ROW_SIZE):
+            for n in xrange(Configure.COL_SIZE):
+                if self.boardCells[m][n] == CellState.WHITE:
                     print "Add White Chess"
                     x, y = getCellLeftTopPosition(m, n)
-                    painter.drawPixmap(x, y, Configure.cellWidth, Configure.cellHeight, self.whiteChessPixmap)
-                elif self.boardCells[m][n] == CellState.Black:
+                    painter.drawPixmap(x, y, Configure.CELL_WIDTH, Configure.CELL_HEIGHT, self.whiteChessPixmap)
+                elif self.boardCells[m][n] == CellState.BLACK:
                     print "Add Black Chess"
                     x, y = getCellLeftTopPosition(m, n)
-                    painter.drawPixmap(x, y, Configure.cellWidth, Configure.cellHeight, self.blackChessPixmap)
+                    painter.drawPixmap(x, y, Configure.CELL_WIDTH, Configure.CELL_HEIGHT, self.blackChessPixmap)
 
     def mousePressEvent(self, QMouseEvent):
         if QMouseEvent.button() == QtCore.Qt.LeftButton:
@@ -74,13 +74,10 @@ class Board(QtGui.QWidget):
             print e
             print rowNum, colNum, state
 
-    def takeAStep(self, side, rowNum, colNum):
-        self.boardCells[rowNum][colNum] = side
-
     def getSameSideCount(self, direction, rowNum, colNum, side):
         sum = 0
         m,n = rowNum,colNum
-        if direction == Direction.Down:
+        if direction == Direction.DOWN:
             for i in range(1,4):
                 m = m + 1
                 if isRowNumValid(m) and isColNumValid(n):
@@ -90,7 +87,7 @@ class Board(QtGui.QWidget):
                         break;
                 else:
                     break
-        elif direction == Direction.Up:
+        elif direction == Direction.UP:
             for i in range(1,4):
                 m = m - 1
                 if isRowNumValid(m) and isColNumValid(n):
@@ -100,7 +97,7 @@ class Board(QtGui.QWidget):
                         break;
                 else:
                     break
-        elif direction == Direction.Left:
+        elif direction == Direction.LEFT:
             for i in range(1,4):
                 n = n - 1
                 if isRowNumValid(m) and isColNumValid(n):
@@ -110,7 +107,7 @@ class Board(QtGui.QWidget):
                         break;
                 else:
                     break
-        elif direction == Direction.Right:
+        elif direction == Direction.RIGHT:
             for i in range(1,4):
                 n = n + 1
                 if isRowNumValid(m) and isColNumValid(n):
@@ -120,7 +117,7 @@ class Board(QtGui.QWidget):
                         break;
                 else:
                     break
-        elif direction == Direction.UpLeft:
+        elif direction == Direction.UP_LEFT:
             for i in range(1,4):
                 m = m - 1
                 n = n - 1
@@ -131,7 +128,7 @@ class Board(QtGui.QWidget):
                         break;
                 else:
                     break
-        elif direction == Direction.UpRight:
+        elif direction == Direction.UP_RIGHT:
             for i in range(1,4):
                 m = m - 1
                 n = n + 1
@@ -142,7 +139,7 @@ class Board(QtGui.QWidget):
                         break;
                 else:
                     break
-        elif direction == Direction.DownLeft:
+        elif direction == Direction.DOWN_LEFT:
             for i in range(1,4):
                 m = m + 1
                 n = n - 1
@@ -153,7 +150,7 @@ class Board(QtGui.QWidget):
                         break;
                 else:
                     break
-        elif direction == Direction.DownRight:
+        elif direction == Direction.DOWN_RIGHT:
             for i in range(1,4):
                 m = m + 1
                 n = n + 1
@@ -184,14 +181,14 @@ class Desk(QtGui.QWidget):
 
     def __init__(self,ID):
         QtGui.QWidget.__init__(self)
-        self.setFixedSize(Configure.backgroundWidth,Configure.backgroundHeight)
+        self.setFixedSize(Configure.BACKGROUND_WIDTH, Configure.BACKGROUND_HEIGHT)
         self.initPixmap()
         self.initDataMember(ID)
 
     def initDataMember(self,ID):
         self.leftMemberID = -1
         self.rightMemberID = -1
-        self.state = GameState.Empty
+        self.state = GameState.EMPTY
         self.isMousePressed = False
         self.isMouseHover = False
         self.ID = ID
@@ -215,81 +212,76 @@ class Desk(QtGui.QWidget):
             self.isMousePressed = True
             self.update()
 
-    def getRowAndColumnNum(self):
-        row = math.floor((self.ID-1)/5)
-        col = (self.ID-1)%5
-        return row,col
-
     def mouseReleaseEvent(self, QMouseEvent):
         if self.isMousePressed == True:
             self.isMousePressed = False
             self.update()
             director = self.parent().parent().parent().director
             print "Mouse Release Event:",type(director)
-            row,col = self.getRowAndColumnNum()
+            row,col = Util.getRowAndColumnNum(self.ID)
             director.clientThread.client.sendToServer(1002,1004,{"row_num":row,"col_num":col})
 
     def paintEvent(self, QPaintEvent):
         painter = QtGui.QPainter(self)
-        if  self.state == GameState.Empty\
-        or self.state == GameState.OnlyLeftPersonWaiting \
-        or self.state == GameState.OnlyRightPersonWaiting \
-        or self.state == GameState.TwoPersonWaiting:
-            painter.drawPixmap(0, 0, Configure.backgroundWidth, Configure.backgroundHeight,self.NotPlayingTablePixmap)
-            if self.state == GameState.OnlyLeftPersonWaiting:
+        if  self.state == GameState.EMPTY\
+        or self.state == GameState.ONLY_LEFT_PERSON_WAITING \
+        or self.state == GameState.ONLY_RIGHT_PERSON_WAITING \
+        or self.state == GameState.TWO_PERSON_WAITING:
+            painter.drawPixmap(0, 0, Configure.BACKGROUND_WIDTH, Configure.BACKGROUND_HEIGHT, self.NotPlayingTablePixmap)
+            if self.state == GameState.ONLY_LEFT_PERSON_WAITING:
                 painter.drawPixmap(0,\
-                                   Configure.backgroundHeight/2.0 - Configure.playerHeight/2.0,\
-                                   Configure.playerWidth,\
-                                   Configure.playerHeight,\
+                                   Configure.BACKGROUND_HEIGHT / 2.0 - Configure.PLAYER_HEIGHT / 2.0,\
+                                   Configure.PLAYER_WIDTH,\
+                                   Configure.PLAYER_HEIGHT,\
                                    self.PlayerPixelMap\
                                     )
 
-            elif self.state == GameState.OnlyRightPersonWaiting:
+            elif self.state == GameState.ONLY_RIGHT_PERSON_WAITING:
                 painter.drawPixmap(\
-                    Configure.backgroundWidth - Configure.playerWidth,\
-                    Configure.backgroundHeight/2.0 - Configure.playerHeight/2.0,\
-                    Configure.playerWidth,\
-                    Configure.playerHeight,\
+                    Configure.BACKGROUND_WIDTH - Configure.PLAYER_WIDTH,\
+                    Configure.BACKGROUND_HEIGHT / 2.0 - Configure.PLAYER_HEIGHT / 2.0,\
+                    Configure.PLAYER_WIDTH,\
+                    Configure.PLAYER_HEIGHT,\
                     self.PlayerPixelMap)
 
-            elif self.state == GameState.TwoPersonWaiting:
+            elif self.state == GameState.TWO_PERSON_WAITING:
                 painter.drawPixmap(0,\
-                                   Configure.backgroundHeight/2.0 - Configure.playerHeight/2.0,\
-                                   Configure.playerWidth,\
-                                   Configure.playerHeight,\
+                                   Configure.BACKGROUND_HEIGHT / 2.0 - Configure.PLAYER_HEIGHT / 2.0,\
+                                   Configure.PLAYER_WIDTH,\
+                                   Configure.PLAYER_HEIGHT,\
                                    self.PlayerPixelMap\
                                     )
                 painter.drawPixmap(\
-                    Configure.backgroundWidth-Configure.playerWidth,\
-                    Configure.backgroundHeight/2.0 - Configure.playerHeight/2.0,\
-                    Configure.playerWidth,\
-                    Configure.playerHeight,\
+                    Configure.BACKGROUND_WIDTH - Configure.PLAYER_WIDTH,\
+                    Configure.BACKGROUND_HEIGHT / 2.0 - Configure.PLAYER_HEIGHT / 2.0,\
+                    Configure.PLAYER_WIDTH,\
+                    Configure.PLAYER_HEIGHT,\
                     self.PlayerPixelMap)
 
             if self.isMouseHover:
                 if not self.isMousePressed:
-                    painter.drawPixmap(0, 0, Configure.backgroundWidth, Configure.backgroundHeight, self.NotPlayingTableButtonPixmap)
+                    painter.drawPixmap(0, 0, Configure.BACKGROUND_WIDTH, Configure.BACKGROUND_HEIGHT, self.NotPlayingTableButtonPixmap)
         else:
-            painter.drawPixmap(0, 0, Configure.backgroundWidth, Configure.backgroundHeight, self.PlayingTablePixmap)
+            painter.drawPixmap(0, 0, Configure.BACKGROUND_WIDTH, Configure.BACKGROUND_HEIGHT, self.PlayingTablePixmap)
             painter.drawPixmap(0,\
-                               Configure.backgroundHeight/2.0 - Configure.playerHeight/2.0,\
-                               Configure.playerWidth,\
-                               Configure.playerHeight,\
+                               Configure.BACKGROUND_HEIGHT / 2.0 - Configure.PLAYER_HEIGHT / 2.0,\
+                               Configure.PLAYER_WIDTH,\
+                               Configure.PLAYER_HEIGHT,\
                                self.PlayerPixelMap\
                                 )
             painter.drawPixmap(\
-                Configure.backgroundWidth-Configure.playerWidth,\
-                Configure.backgroundHeight/2.0 - Configure.playerHeight/2.0,\
-                Configure.playerWidth,\
-                Configure.playerHeight,\
+                Configure.BACKGROUND_WIDTH - Configure.PLAYER_WIDTH,\
+                Configure.BACKGROUND_HEIGHT / 2.0 - Configure.PLAYER_HEIGHT / 2.0,\
+                Configure.PLAYER_WIDTH,\
+                Configure.PLAYER_HEIGHT,\
                 self.PlayerPixelMap)
 
             if self.isMouseHover:
                 if not self.isMousePressed:
-                    painter.drawPixmap(0, 0, Configure.backgroundWidth, Configure.backgroundHeight, self.PlayingTableButtonPixmap)
+                    painter.drawPixmap(0, 0, Configure.BACKGROUND_WIDTH, Configure.BACKGROUND_HEIGHT, self.PlayingTableButtonPixmap)
 
         painter.setFont(QtGui.QFont("default",9))
-        painter.drawText(0, Configure.backgroundHeight/10, Configure.backgroundWidth, Configure.backgroundHeight/10, QtCore.Qt.AlignCenter, str(self.ID))
+        painter.drawText(0, Configure.BACKGROUND_HEIGHT / 10, Configure.BACKGROUND_WIDTH, Configure.BACKGROUND_HEIGHT / 10, QtCore.Qt.AlignCenter, str(self.ID))
 
     def enterEvent(self, QEvent):
         self.isMouseHover = True
@@ -303,7 +295,7 @@ class Desk(QtGui.QWidget):
 
 def test():
     app = QtGui.QApplication(sys.argv)
-    widget = BoardDesk()
+    widget = Desk()
     widget.show()
     sys.exit(app.exec_())
 

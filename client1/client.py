@@ -13,7 +13,7 @@ from dispatcher import Dispatcher
 from net import NetStream, NET_STATE_ESTABLISHED, NET_STATE_STOP
 from service import LoginService, HallService, RoomService
 
-class Client(NetStream,QtCore.QObject):
+class Client(NetStream, QtCore.QObject):
     def __init__(self,headMode = 8,serverIP = '127.0.0.1',serverPort = 4829,sleepInterval = 0.1,parent = None):
         NetStream.__init__(self,headMode)
         QtCore.QObject.__init__(self)

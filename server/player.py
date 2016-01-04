@@ -1,16 +1,17 @@
 #-*- encoding:UTF-8 -*-
 
-__author__ = 'gzs2478'
+__author__ = 'zengli'
 
-from client import Client
+import time
 
-class Player(Client):
-    def __init__(self, connectID,server):
+class Player:
+    def __init__(self, connectID, server):
         try:
-            Client.__init__(self, connectID, server)
+            self.connectID = connectID
+            self.server = server
             self.initData()
         except BaseException, e:
-            print "Player Init Error"
+            print time.ctime(), "Player Init Error"
             print e
 
     def initData(self):
@@ -34,7 +35,6 @@ class Player(Client):
         else:
             return True
 
-    #上传更新
     def uploadNewPlayerInfoToDatabase(self):
         try:
             print "Upload New Player!"
@@ -49,7 +49,6 @@ class Player(Client):
             print e
 
 
-    #下载更新
     def updatePlayerInfoWithIDFromDatabase(self):
         if not self.hasLogin():
             raise Exception("The Player has no player ID")
@@ -79,6 +78,7 @@ class Player(Client):
         except BaseException,e:
             print "UpdatePlayerInfoWithNicknameFromDB Error"
             print e
+
     def hasNicknameInDatabase(self):
         try:
             if self.nickname == None:
@@ -100,6 +100,7 @@ class Player(Client):
         except BaseException,e:
             print "Has Nick Name In Database Error"
             print e
+
     @staticmethod
     def getPasswordByNickname(nickname,server):
         print "GettingPasswordByNickname"

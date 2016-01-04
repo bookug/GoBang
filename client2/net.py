@@ -1,5 +1,7 @@
 # -*- coding: utf-8 -*-
 
+__author__ = 'zengli'
+
 #======================================================================
 #
 # NetStream.py - network data stream operation interface

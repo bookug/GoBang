@@ -5,77 +5,57 @@ __author__ = 'zengli'
 import sys, math
 from PyQt4 import QtGui,QtCore
 
-from util import BoardCell, BoardDirection, PlayerSide, PlayerState
+from util import CellState, Direction, Configure
+from util import PlayerSide, PlayerState
+from util import *
 
 class Board(QtGui.QWidget):
-    padding = 40
-    cellWidth = 64
-    cellHeight = 64
-    rowSize = 15
-    colSize = 15
     boardBackgroundPixmap = None
     blackChessPixmap = None
     whiteChessPixmap = None
 
-    currentSide = BoardCell.White
+    currentSide = CellState.White
 
-    def initBoardCells(self):
+    def initCellStates(self):
         self.boardCells = []
-        for m in xrange(self.rowSize):
+        for m in xrange(Configure.rowSize):
             boardRow = []
-            for n in xrange(self.colSize):
-                boardRow.append(BoardCell.Empty)
+            for n in xrange(Configure.colSize):
+                boardRow.append(CellState.Empty)
             self.boardCells.append(boardRow)
 
     def init(self):
-        self.initBoardCells()
+        self.initCellStates()
         self.boardBackgroundPixmap = QtGui.QPixmap(r'./img/ChessBoard.png')
         self.blackChessPixmap = QtGui.QPixmap(r'./img/BlackChess1.png')
         self.whiteChessPixmap = QtGui.QPixmap(r'./img/WhiteChess1.png')
 
-        #self.setFixedSize(self.padding * 2 + (self.colSize - 1) * self.cellWidth,self.padding * 2 + (self.rowSize - 1) * self.cellHeight)
+        #self.setFixedSize(Configure.padding * 2 + (Configure.colSize - 1) * Configure.cellWidth,Configure.padding * 2 + (Configure.rowSize - 1) * Configure.cellHeight)
 
     def __init__(self,parent = None):
         QtGui.QWidget.__init__(self,parent)
         self.init()
 
-    @staticmethod
-    def getBoardCellLeftTopPosition(rowNum,colNum):
-        '''
-        number start from zero
-        '''
-        x = Board.padding + colNum * Board.cellWidth - 0.5 * Board.cellWidth
-        y = Board.padding + rowNum * Board.cellHeight - 0.5 * Board.cellHeight
-        return x, y
-
-    @staticmethod
-    def getCellNumberFromPosition(x,y):
-        colNum, rowNum = int((x - Board.padding + 0.5 * Board.cellWidth )/Board.cellWidth), int((y - Board.padding + 0.5 * Board.cellHeight)/Board.cellHeight)
-        if colNum >= 0 and colNum < Board.colSize and rowNum >= 0 and rowNum < Board.rowSize :
-            return rowNum,colNum
-        else:
-            return -1,-1  #error
-
     #each time when moving, flush and rearrange
     def paintEvent(self, QPaintEvent):
         painter = QtGui.QPainter(self)
-        painter.drawPixmap(0, 0, self.padding * 2 + (self.colSize - 1) * self.cellWidth, self.padding * 2 + (self.rowSize - 1) * self.cellHeight, self.boardBackgroundPixmap)
-        for m in xrange(self.rowSize):
-            for n in xrange(self.colSize):
-                if self.boardCells[m][n] == BoardCell.White:
+        painter.drawPixmap(0, 0, Configure.padding * 2 + (Configure.colSize - 1) * Configure.cellWidth, Configure.padding * 2 + (Configure.rowSize - 1) * Configure.cellHeight, self.boardBackgroundPixmap)
+        for m in xrange(Configure.rowSize):
+            for n in xrange(Configure.colSize):
+                if self.boardCells[m][n] == CellState.White:
                     print "Add White Chess"
-                    x, y = self.getBoardCellLeftTopPosition(m, n)
-                    painter.drawPixmap(x, y, self.cellWidth, self.cellHeight, self.whiteChessPixmap)
-                elif self.boardCells[m][n] == BoardCell.Black:
+                    x, y = getCellLeftTopPosition(m, n)
+                    painter.drawPixmap(x, y, Configure.cellWidth, Configure.cellHeight, self.whiteChessPixmap)
+                elif self.boardCells[m][n] == CellState.Black:
                     print "Add Black Chess"
-                    x, y = self.getChessBoardCellLeftTopPosition(m, n)
-                    painter.drawPixmap(x, y, self.cellWidth, self.cellHeight, self.blackChessPixmap)
+                    x, y = getCellLeftTopPosition(m, n)
+                    painter.drawPixmap(x, y, Configure.cellWidth, Configure.cellHeight, self.blackChessPixmap)
 
     def mousePressEvent(self, QMouseEvent):
         if QMouseEvent.button() == QtCore.Qt.LeftButton:
             x, y = QMouseEvent.x(),QMouseEvent.y()
             print x,",",y,":Clicked!"
-            m, n = Board.getCellNumberFromPosition(x,y)
+            m, n = getCellNumberFromPosition(x,y)
             if m != -1 and n != -1:
                 print "get chess board mouse event!"
                 self.emit(QtCore.SIGNAL('takeAChess(int,int)'),m,n)
@@ -97,101 +77,87 @@ class Board(QtGui.QWidget):
     def takeAStep(self, side, rowNum, colNum):
         self.boardCells[rowNum][colNum] = side
 
-    @staticmethod
-    def isRowNumValid(m):
-        if m < Board.rowSize and m >= 0:
-            return True
-        else:
-            return False
-
-    @staticmethod
-    def isColNumValid(n):
-        if n < Board.colSize and n >= 0:
-            return True
-        else:
-            return False
-
     def getSameSideCount(self, direction, rowNum, colNum, side):
         sum = 0
         m,n = rowNum,colNum
-        if direction == BoardDirection.Down:
+        if direction == Direction.Down:
             for i in range(1,4):
                 m = m + 1
-                if Board.isRowNumAvailable(m) and Board.isColNumAvailable(n):
+                if isRowNumValid(m) and isColNumValid(n):
                     if side == self.boardCells[m][n]:
                         sum = sum + 1
                     else:
                         break;
                 else:
                     break
-        elif direction == BoardDirection.Up:
+        elif direction == Direction.Up:
             for i in range(1,4):
                 m = m - 1
-                if Board.isRowNumAvailable(m) and Board.isColNumAvailable(n):
+                if isRowNumValid(m) and isColNumValid(n):
                     if side == self.boardCells[m][n]:
                         sum = sum + 1
                     else:
                         break;
                 else:
                     break
-        elif direction == BoardDirection.Left:
+        elif direction == Direction.Left:
             for i in range(1,4):
                 n = n - 1
-                if Board.isRowNumAvailable(m) and Board.isColNumAvailable(n):
+                if isRowNumValid(m) and isColNumValid(n):
                     if side == self.boardCells[m][n]:
                         sum = sum + 1
                     else:
                         break;
                 else:
                     break
-        elif direction == BoardDirection.Right:
+        elif direction == Direction.Right:
             for i in range(1,4):
                 n = n + 1
-                if Board.isRowNumAvailable(m) and Board.isColNumAvailable(n):
+                if isRowNumValid(m) and isColNumValid(n):
                     if side == self.boardCells[m][n]:
                         sum = sum + 1
                     else:
                         break;
                 else:
                     break
-        elif direction == BoardDirection.UpLeft:
+        elif direction == Direction.UpLeft:
             for i in range(1,4):
                 m = m - 1
                 n = n - 1
-                if Board.isRowNumAvailable(m) and Board.isColNumAvailable(n):
+                if isRowNumValid(m) and isColNumValid(n):
                     if side == self.boardCells[m][n]:
                         sum = sum + 1
                     else:
                         break;
                 else:
                     break
-        elif direction == BoardDirection.UpRight:
+        elif direction == Direction.UpRight:
             for i in range(1,4):
                 m = m - 1
                 n = n + 1
-                if Board.isRowNumAvailable(m) and Board.isColNumAvailable(n):
+                if isRowNumValid(m) and isColNumValid(n):
                     if side == self.boardCells[m][n]:
                         sum = sum + 1
                     else:
                         break;
                 else:
                     break
-        elif direction == BoardDirection.DownLeft:
+        elif direction == Direction.DownLeft:
             for i in range(1,4):
                 m = m + 1
                 n = n - 1
-                if Board.isRowNumAvailable(m) and Board.isColNumAvailable(n):
+                if isRowNumValid(m) and isColNumValid(n):
                     if side == self.boardCells[m][n]:
                         sum = sum + 1
                     else:
                         break;
                 else:
                     break
-        elif direction == BoardDirection.DownRight:
+        elif direction == Direction.DownRight:
             for i in range(1,4):
                 m = m + 1
                 n = n + 1
-                if Board.isRowNumAvailable(m) and Board.isColNumAvailable(n):
+                if isRowNumValid(m) and isColNumValid(n):
                     if side == self.boardCells[m][n]:
                         sum = sum + 1
                     else:
@@ -207,29 +173,25 @@ class Board(QtGui.QWidget):
 #    sys.exit(app.exec_())
 
 
-from util import BoardDeskState
+from util import GameState
 
-class BoardDesk(QtGui.QWidget):
+class Desk(QtGui.QWidget):
     PlayingTablePixmap = None
     NotPlayingTablePixmap = None
     PlayerPixelMap = None
     PlayingTableButtonPixmap = None
     NotPlayingTableButtonPixmap = None
-    backgroundWidth = 121
-    backgroundHeight = 119
-    playerWidth = 32
-    playerHeight = 32
 
     def __init__(self,ID):
         QtGui.QWidget.__init__(self)
-        self.setFixedSize(self.backgroundWidth,self.backgroundHeight)
+        self.setFixedSize(Configure.backgroundWidth,Configure.backgroundHeight)
         self.initPixmap()
         self.initDataMember(ID)
 
     def initDataMember(self,ID):
         self.leftMemberID = -1
         self.rightMemberID = -1
-        self.state = BoardDeskState.Empty
+        self.state = GameState.Empty
         self.isMousePressed = False
         self.isMouseHover = False
         self.ID = ID
@@ -269,65 +231,65 @@ class BoardDesk(QtGui.QWidget):
 
     def paintEvent(self, QPaintEvent):
         painter = QtGui.QPainter(self)
-        if  self.state == BoardDeskState.Empty\
-        or self.state == BoardDeskState.OnlyLeftPersonWaiting \
-        or self.state == BoardDeskState.OnlyRightPersonWaiting \
-        or self.state == BoardDeskState.TwoPersonWaiting:
-            painter.drawPixmap(0, 0, self.backgroundWidth, self.backgroundHeight,self.NotPlayingTablePixmap)
-            if self.state == BoardDeskState.OnlyLeftPersonWaiting:
+        if  self.state == GameState.Empty\
+        or self.state == GameState.OnlyLeftPersonWaiting \
+        or self.state == GameState.OnlyRightPersonWaiting \
+        or self.state == GameState.TwoPersonWaiting:
+            painter.drawPixmap(0, 0, Configure.backgroundWidth, Configure.backgroundHeight,self.NotPlayingTablePixmap)
+            if self.state == GameState.OnlyLeftPersonWaiting:
                 painter.drawPixmap(0,\
-                                   self.backgroundHeight/2.0 - self.playerHeight/2.0,\
-                                   self.playerWidth,\
-                                   self.playerHeight,\
+                                   Configure.backgroundHeight/2.0 - Configure.playerHeight/2.0,\
+                                   Configure.playerWidth,\
+                                   Configure.playerHeight,\
                                    self.PlayerPixelMap\
                                     )
 
-            elif self.state == BoardDeskState.OnlyRightPersonWaiting:
+            elif self.state == GameState.OnlyRightPersonWaiting:
                 painter.drawPixmap(\
-                    self.backgroundWidth - self.playerWidth,\
-                    self.backgroundHeight/2.0 - self.playerHeight/2.0,\
-                    self.playerWidth,\
-                    self.playerHeight,\
+                    Configure.backgroundWidth - Configure.playerWidth,\
+                    Configure.backgroundHeight/2.0 - Configure.playerHeight/2.0,\
+                    Configure.playerWidth,\
+                    Configure.playerHeight,\
                     self.PlayerPixelMap)
 
-            elif self.state == BoardDeskState.TwoPersonWaiting:
+            elif self.state == GameState.TwoPersonWaiting:
                 painter.drawPixmap(0,\
-                                   self.backgroundHeight/2.0 - self.playerHeight/2.0,\
-                                   self.playerWidth,\
-                                   self.playerHeight,\
+                                   Configure.backgroundHeight/2.0 - Configure.playerHeight/2.0,\
+                                   Configure.playerWidth,\
+                                   Configure.playerHeight,\
                                    self.PlayerPixelMap\
                                     )
                 painter.drawPixmap(\
-                    self.backgroundWidth-self.playerWidth,\
-                    self.backgroundHeight/2.0 - self.playerHeight/2.0,\
-                    self.playerWidth,\
-                    self.playerHeight,\
+                    Configure.backgroundWidth-Configure.playerWidth,\
+                    Configure.backgroundHeight/2.0 - Configure.playerHeight/2.0,\
+                    Configure.playerWidth,\
+                    Configure.playerHeight,\
                     self.PlayerPixelMap)
 
             if self.isMouseHover:
                 if not self.isMousePressed:
-                    painter.drawPixmap(0, 0, self.backgroundWidth, self.backgroundHeight, self.NotPlayingTableButtonPixmap)
+                    painter.drawPixmap(0, 0, Configure.backgroundWidth, Configure.backgroundHeight, self.NotPlayingTableButtonPixmap)
         else:
-            painter.drawPixmap(0, 0, self.backgroundWidth, self.backgroundHeight, self.PlayingTablePixmap)
+            painter.drawPixmap(0, 0, Configure.backgroundWidth, Configure.backgroundHeight, self.PlayingTablePixmap)
             painter.drawPixmap(0,\
-                               self.backgroundHeight/2.0 - self.playerHeight/2.0,\
-                               self.playerWidth,\
-                               self.playerHeight,\
+                               Configure.backgroundHeight/2.0 - Configure.playerHeight/2.0,\
+                               Configure.playerWidth,\
+                               Configure.playerHeight,\
                                self.PlayerPixelMap\
                                 )
             painter.drawPixmap(\
-                self.backgroundWidth-self.playerWidth,\
-                self.backgroundHeight/2.0 - self.playerHeight/2.0,\
-                self.playerWidth,\
-                self.playerHeight,\
+                Configure.backgroundWidth-Configure.playerWidth,\
+                Configure.backgroundHeight/2.0 - Configure.playerHeight/2.0,\
+                Configure.playerWidth,\
+                Configure.playerHeight,\
                 self.PlayerPixelMap)
 
             if self.isMouseHover:
                 if not self.isMousePressed:
-                    painter.drawPixmap(0, 0, self.backgroundWidth, self.backgroundHeight, self.PlayingTableButtonPixmap)
+                    painter.drawPixmap(0, 0, Configure.backgroundWidth, Configure.backgroundHeight, self.PlayingTableButtonPixmap)
 
         painter.setFont(QtGui.QFont("default",9))
-        painter.drawText(0, self.backgroundHeight/10, self.backgroundWidth, self.backgroundHeight/10, QtCore.Qt.AlignCenter, str(self.ID))
+        painter.drawText(0, Configure.backgroundHeight/10, Configure.backgroundWidth, Configure.backgroundHeight/10, QtCore.Qt.AlignCenter, str(self.ID))
 
     def enterEvent(self, QEvent):
         self.isMouseHover = True

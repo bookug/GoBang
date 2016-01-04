@@ -9,8 +9,8 @@ import time
 
 from windows import LoginWindow, HallWindow, RoomWindow
 from client import Client, ClientThread
-from util import Util, BoardDeskState, BoardCell, PlayerSide, PlayerState
-from board import Board, BoardDesk
+from util import Util, GameState, PlayerSide, PlayerState
+from board import Board, Desk
 from service import RoomService
 
 
@@ -243,7 +243,7 @@ class Hall(QWidget):
         self.director.clientThread.client.sendToServer(1002,1001,{})
 
     def createDesk(self,rowNum,colNum):
-        return BoardDesk(rowNum*self.tableColNum+colNum+1)
+        return Desk(rowNum*self.tableColNum+colNum+1)
 
     def setDesk(self,desk,rowNum,colNum):
             layout = QHBoxLayout(desk)
@@ -352,14 +352,14 @@ class Hall(QWidget):
             desk = self.createDesk(rowNum,colNum)
 
             if(playersNum == 0):
-                desk.state = BoardDeskState.Empty
+                desk.state = GameState.Empty
             elif playersNum == 1:
-                desk.state = BoardDeskState.OnlyLeftPersonWaiting
+                desk.state = GameState.OnlyLeftPersonWaiting
             elif playersNum == 2:
                 if isPlaying :
-                    desk.state = BoardDeskState.Playing
+                    desk.state = GameState.Playing
                 else:
-                    desk.state = BoardDeskState.TwoPersonWaiting
+                    desk.state = GameState.TwoPersonWaiting
 
             self.setDesk(desk,rowNum,colNum)
 

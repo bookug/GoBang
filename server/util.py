@@ -5,12 +5,12 @@ __author__ = 'zengli'
 class Util:
     a = 1
 
-class ChessCellState:
+class CellState:
     WhiteChess = 0
     BlackChess = 1
     NoChess = 2
 
-class ChessBoardDirection:
+class Direction:
     Left = 0;
     Right = 1;
     Down = 2;

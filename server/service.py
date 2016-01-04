@@ -5,7 +5,7 @@ __author__ = 'zengli'
 from PyQt4.QtCore import *
 from PyQt4.QtGui import *
 
-from util import ChessCellState, ChessBoardDirection
+from util import CellState, Direction
 from util import PlayerSide, PlayerState  
 
 class Service(QObject):
@@ -29,6 +29,7 @@ class Service(QObject):
             raise Exception('Wrong Command %s'%commandID)
         function = self.commands[commandID]
         return function(msg,owner)
+
     def register(self,commandID,function):
         self.commands[commandID] = function
 
@@ -354,7 +355,7 @@ class Room(object):
         for rowNum in xrange(15):
             row = []
             for colNum in xrange(15):
-                chessCell = ChessCellState.NoChess
+                chessCell = CellState.NoChess
                 row.append(chessCell)
             self.chessCells.append(row)
 
@@ -365,7 +366,7 @@ class Room(object):
         for rowNum in xrange(15):
             row = []
             for colNum in xrange(15):
-                chessCell = ChessCellState.NoChess
+                chessCell = CellState.NoChess
                 row.append(chessCell)
             self.chessCells.append(row)
 
@@ -481,7 +482,7 @@ class Room(object):
             colNum = step['col_num']
             if self.players[connectID]['state'] == PlayerState.TakingChess:
                 if side == self.whosTurn:
-                    if(self.chessCells[rowNum][colNum] == ChessCellState.NoChess):
+                    if(self.chessCells[rowNum][colNum] == CellState.NoChess):
                         self.chessCells[rowNum][colNum] = side
                         self.addStepToStepList(side,rowNum,colNum)
                         self.players[connectID]['state'] = PlayerState.WaitingForTaking
@@ -491,7 +492,7 @@ class Room(object):
                                 self.whosTurn = self.players[key]['side']
                         self.service.broadcastChessCells(self.ID)
                         self.service.broadcastPlayers(self.ID)
-                        self.service.broadcastNewMessage(self.ID,(self.players[connectID]['nickname'])+u"走了"+str(rowNum)+u"行"+str(colNum)+u"列")
+                        self.service.broadcastNewMessage(self.ID,(self.players[connectID]['nickname'])+u" take "+str(rowNum)+u" row "+str(colNum)+u" col")
                         return True
                     else:
                         return False
@@ -516,7 +517,7 @@ class Room(object):
         lastStep = self.chessStepList[len(self.chessStepList)-1]
         rowNum,colNum,cellState = lastStep['row_num'],lastStep['col_num'],lastStep['cell_state']
         if self.chessCells[rowNum][colNum] == cellState:
-            self.chessCells[rowNum][colNum] = ChessCellState.NoChess
+            self.chessCells[rowNum][colNum] = CellState.NoChess
             return self.chessStepList.pop()
         else:
             return False
@@ -645,7 +646,7 @@ class Room(object):
         sum = 0
         currentSide = self.chessCells[rowNum][colNum]
         m,n = rowNum,colNum
-        if direction == ChessBoardDirection.Down:
+        if direction == Direction.Down:
             for i in range(4):
                 m = m + 1
                 print "Judging Down side"
@@ -658,7 +659,7 @@ class Room(object):
                         break
                 else:
                     break
-        elif direction == ChessBoardDirection.Up:
+        elif direction == Direction.Up:
             for i in range(4):
                 m = m - 1
                 if Room.isRowNumAvailable(m) and Room.isColNumAvailable(n):
@@ -668,7 +669,7 @@ class Room(object):
                         break
                 else:
                     break
-        elif direction == ChessBoardDirection.Left:
+        elif direction == Direction.Left:
             for i in range(4):
                 n = n - 1
                 if Room.isRowNumAvailable(m) and Room.isColNumAvailable(n):
@@ -678,7 +679,7 @@ class Room(object):
                         break
                 else:
                     break
-        elif direction == ChessBoardDirection.Right:
+        elif direction == Direction.Right:
             for i in range(4):
                 n = n + 1
                 if Room.isRowNumAvailable(m) and Room.isColNumAvailable(n):
@@ -688,7 +689,7 @@ class Room(object):
                         break
                 else:
                     break
-        elif direction == ChessBoardDirection.UpLeft:
+        elif direction == Direction.UpLeft:
             for i in range(4):
                 m = m - 1
                 n = n - 1
@@ -699,7 +700,7 @@ class Room(object):
                         break
                 else:
                     break
-        elif direction == ChessBoardDirection.UpRight:
+        elif direction == Direction.UpRight:
             for i in range(4):
                 m = m - 1
                 n = n + 1
@@ -710,7 +711,7 @@ class Room(object):
                         break
                 else:
                     break
-        elif direction == ChessBoardDirection.DownLeft:
+        elif direction == Direction.DownLeft:
             for i in range(4):
                 m = m + 1
                 n = n + 1
@@ -721,7 +722,7 @@ class Room(object):
                         break
                 else:
                     break
-        elif direction == ChessBoardDirection.DownRight:
+        elif direction == Direction.DownRight:
             for i in range(4):
                 m = m + 1
                 n = n - 1
@@ -873,28 +874,28 @@ class RoomService(Service):
         data = msg['data']
         roomID = data['room_id']
         self.rooms[roomID].getReady(player.connectID)
-        self.broadcastNewMessage(roomID,unicode(self.rooms[roomID].players[player.connectID]['nickname'])+u"准备好了")
+        self.broadcastNewMessage(roomID,unicode(self.rooms[roomID].players[player.connectID]['nickname'])+u" prepared")
     def disreadyHandler(self,msg,player):
         data = msg['data']
         roomID = data['room_id']
         self.rooms[roomID].disready(player.connectID)
-        self.broadcastNewMessage(roomID,unicode(self.rooms[roomID].players[player.connectID]['nickname'])+u"取消准备")
+        self.broadcastNewMessage(roomID,unicode(self.rooms[roomID].players[player.connectID]['nickname'])+u" cancel prepared")
     def requestUndoHandler(self,msg,player):
         data = msg['data']
         roomID = data['room_id']
         print "Get a undo request"
         self.rooms[roomID].requestForUndo(player.connectID)
-        self.broadcastNewMessage(roomID,unicode(self.rooms[roomID].players[player.connectID]['nickname'])+u"请求悔棋")
+        self.broadcastNewMessage(roomID,unicode(self.rooms[roomID].players[player.connectID]['nickname'])+u" want to withdraw")
     def acceptUndoHandler(self,msg,player):
         data = msg['data']
         roomID = data['room_id']
         self.rooms[roomID].acceptForUndo(player.connectID)
-        self.broadcastNewMessage(roomID,unicode(self.rooms[roomID].players[player.connectID]['nickname'])+u"接受悔棋")
+        self.broadcastNewMessage(roomID,unicode(self.rooms[roomID].players[player.connectID]['nickname'])+u" admit to withdraw")
     def notAcceptUndoHandler(self,msg,player):
         data = msg['data']
         roomID = data['room_id']
         self.rooms[roomID].rejectForUndo(player.connectID)
-        self.broadcastNewMessage(roomID,unicode(self.rooms[roomID].players[player.connectID]['nickname'])+u"拒绝悔棋")
+        self.broadcastNewMessage(roomID,unicode(self.rooms[roomID].players[player.connectID]['nickname'])+u" reject to withdraw")
     def commitLostHandler(self,msg,player):
         try:
             data = msg['data']
@@ -906,7 +907,7 @@ class RoomService(Service):
             self.rooms[roomID].restart()
             self.broadcastPlayers(roomID)
             self.broadcastChessCells(roomID)
-            self.broadcastNewMessage(roomID,unicode(self.rooms[roomID].players[player.connectID]['nickname'])+u"居然认输了！")
+            self.broadcastNewMessage(roomID,unicode(self.rooms[roomID].players[player.connectID]['nickname'])+u" admit defeat")
         except BaseException,e:
             print "Error in commit Lost handler"
             print e

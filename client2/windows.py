@@ -106,7 +106,7 @@ class LoginWindow(object):
         self.label_3.setText(_translate("LoginWindow", "nickname", None))
         self.loginButton.setText(_translate("LoginWindow", "login", None))
         self.PortNumberText.setText(_translate("LoginWindow", "4829", None))
-        self.ServerIPText.setText(_translate("LoginWindow", "127.0.0.1", None))
+        self.ServerIPText.setText(_translate("LoginWindow", "123.57.165.67", None))
         self.NicknameText.setText(_translate("LoginWindow", "bookug", None))
         self.label_4.setText(_translate("LoginWindow", "passwd", None))
         self.PasswordText.setText(_translate("LoginWindow", "12345678", None))

@@ -1,4 +1,3 @@
-final test on aliyun-server
 prepare docx and ppt(UML)
 
 MAYBE:

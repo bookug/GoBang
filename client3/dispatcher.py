@@ -20,6 +20,7 @@ class Dispatcher(object):
         except BaseException,e:
             print "Error in Client Dispatcher dispatching"
             print e
+
     def register(self,serviceID,service):
         service.setParent(self)
         self.services[serviceID] = service

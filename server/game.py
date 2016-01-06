@@ -6,7 +6,7 @@ from PyQt4.QtCore import *
 from PyQt4.QtGui import *
 import time
 
-from util import CellState, Direction, DBState, PlayerSide, PlayerState  
+from util import Util, CellState, Direction, PlayerSide, PlayerState  
 from util import *
 
 #NTC: used in hall,  different from Desk in client/board.py
@@ -155,7 +155,7 @@ class Room(object):
         else:
             raise Exception("Wrong Player Getting Ready")
 
-    def disready(self,connectID):
+    def disReady(self,connectID):
         if self.players.has_key(connectID):
             self.players[connectID]['state'] = PlayerState.NOT_READY
             self.service.broadcastPlayers(self.ID)

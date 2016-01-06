@@ -293,11 +293,11 @@ class Desk(QtGui.QWidget):
         #print "Leave Event"
         self.update()
 
-def test():
-    app = QtGui.QApplication(sys.argv)
-    widget = Desk()
-    widget.show()
-    sys.exit(app.exec_())
+#def test():
+#    app = QtGui.QApplication(sys.argv)
+#    widget = Desk()
+#    widget.show()
+#    sys.exit(app.exec_())
 
 #if __name__ == '__main__':
 #    test()

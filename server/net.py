@@ -487,7 +487,7 @@ class NetHost(object):
 		self.period = millisec
 		self.timeslap = long(time.time() * 1000)
 
-	def nodelay (self, hid, nodelay = 0):
+	def nodelay(self, hid, nodelay = 0):
 		pos = hid & 0xffff
 		if (pos < 0) or (pos >= len(self.clients)): return -1
 		client = self.clients[pos]

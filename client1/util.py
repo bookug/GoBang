@@ -2,19 +2,22 @@
 
 __author__ = 'zengli'
 
-#this is the lower level of package except built-in 
+#this is the lowest level of package except built-in 
+
 import math
 
 class Util:
     def __init__(self):
         print "hello, this is util!"
 
+    #this is used in board.py
     @staticmethod
     def getRowAndColumnNum(ID):
         row = math.floor((ID - 1) / 5)
         col = (ID - 1) % 5
         return row, col
 
+    #this is used in game.py
     @staticmethod
     def getRowAndColNumber(roomID):
         rowNum = (roomID-1)/5

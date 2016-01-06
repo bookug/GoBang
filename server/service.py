@@ -278,7 +278,7 @@ class RoomService(Service):
                         1003 : self.leaveRoomHandler,\
                         1004 : self.takeChessHandler,\
                         1005 : self.getReadyHandler,\
-                        1006 : self.disreadyHandler,\
+                        1006 : self.disReadyHandler,\
                         1007 : self.requestUndoHandler,\
                         1008 : self.acceptUndoHandler,\
                         1009 : self.notAcceptUndoHandler,\
@@ -366,10 +366,11 @@ class RoomService(Service):
         roomID = data['room_id']
         self.rooms[roomID].getReady(player.connectID)
         self.broadcastNewMessage(roomID,unicode(self.rooms[roomID].players[player.connectID]['nickname'])+u" prepared")
-    def disreadyHandler(self,msg,player):
+
+    def disReadyHandler(self,msg,player):
         data = msg['data']
         roomID = data['room_id']
-        self.rooms[roomID].disready(player.connectID)
+        self.rooms[roomID].disReady(player.connectID)
         self.broadcastNewMessage(roomID,unicode(self.rooms[roomID].players[player.connectID]['nickname'])+u" cancel prepared")
 
     def requestUndoHandler(self,msg,player):
@@ -378,6 +379,7 @@ class RoomService(Service):
         print "Get a undo request"
         self.rooms[roomID].requestForUndo(player.connectID)
         self.broadcastNewMessage(roomID,unicode(self.rooms[roomID].players[player.connectID]['nickname'])+u" want to withdraw")
+
     def acceptUndoHandler(self,msg,player):
         data = msg['data']
         roomID = data['room_id']

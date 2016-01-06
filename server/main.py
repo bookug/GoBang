@@ -17,12 +17,12 @@ class Server(NetHost):
             self,\
             headMode = 8,\
             port = 4829,\
-            timeInterval = 10000,\
+            timerInterval = 10000,\
             sleepInterval = 0.5,\
             databasePath = './.gobang.db'\
             ):
         NetHost.__init__(self,headMode)
-        self.initData(headMode,port,timeInterval,sleepInterval,databasePath)
+        self.initData(headMode,port,timerInterval,sleepInterval,databasePath)
         self.setup()
 
     def __del__(self):
@@ -61,12 +61,12 @@ class Server(NetHost):
             print "Error while setup db"
             print e
     
-    def initData(self,headMode,port,timeInterval,sleepInterval,databasePath):
+    def initData(self,headMode,port,timerInterval,sleepInterval,databasePath):
         self.database = Database(databasePath)
         try:
             self.headMode = headMode
             self.port = port
-            self.timerInterval = timeInterval
+            self.timerInterval = timerInterval
             self.sleepInterval = sleepInterval
             self.dispatcher = Dispatcher()
             self.connectedClients = {}

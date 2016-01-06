@@ -21,6 +21,7 @@ class Service(QObject):
             raise Exception('Wrong Command %s'%commandID)
         function = self.commands[commandID]
         return function(msg,owner)
+
     def register(self,commandID,function):
         self.commands[commandID] = function
 
@@ -152,6 +153,7 @@ class LoginService(Service):
             SIGNAL('goToHallFromLoginWindow(bool,int,int)'),\
             data['is_first_login'],data['table_col_num'],\
             data['table_row_num'])
+
     def loginFailedHandler(self,msg,owner):
         print "LoginFailedHandler"
         self.emit(SIGNAL('loginFailed(QString)'),u"wrong password, or login already!")

@@ -12,7 +12,6 @@ from client import Client, ClientThread
 from util import Util, GameState, PlayerSide, PlayerState
 from util import *
 from board import Board, Desk
-from service import RoomService
 
 
 class Room(QWidget):
@@ -177,6 +176,7 @@ class Room(QWidget):
 
     def addNewEventList(self,eventString):
         self.ui.LiveText.setPlainText(self.ui.LiveText.toPlainText() + '\n' + unicode(eventString))
+
     def getRequestForUndoHandler(self):
         reply = QMessageBox.question(self,u'want to withdraw?',u"do you let him withdraw?",QMessageBox.Yes,QMessageBox.No)
         if reply == QMessageBox.Yes:
@@ -359,7 +359,6 @@ class Hall(QWidget):
                     desk.state = GameState.TWO_PERSON_WAITING
 
             self.setDesk(desk,rowNum,colNum)
-
         except AttributeError,e:
             print "UpdateDeskError"
             print e

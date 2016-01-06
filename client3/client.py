@@ -74,6 +74,8 @@ class Client(NetStream, QtCore.QObject):
         self.send(messageString)
 
     #NTC: the lock is not used!
+    #listen to and deal with the message from net,
+    #then dispatch it to the appropiate service
     def run(self, lock):
         try:
             while self.isAlive:
@@ -105,7 +107,8 @@ class Client(NetStream, QtCore.QObject):
 class ClientThread(threading.Thread):
     def __init__(self,parent = None):
         threading.Thread.__init__(self)
-        #enable the client to execute if terminal closed
+        #enable this thread to execute on background
+        #while the GUI is running
         self.setDaemon(True)
         self.initData(parent)
 

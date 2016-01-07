@@ -4,21 +4,12 @@ __author__ = 'zengli'
 
 #NTC: keep almostly same as in client/
 
-#======================================================================
-#
-# NetStream.py - network data stream operation interface
-#
-# NOTE: The Replacement of TcpClient 
-#
-#======================================================================
-
 import socket
 import select
 import struct
 import time
 import sys
 import errno
-
 
 #======================================================================
 # RC4 cryption
@@ -81,7 +72,6 @@ NET_STATE_ESTABLISHED = 2		# state: connected
 # NetStream - basic tcp stream
 #======================================================================
 class NetStream(object):
-
 	def __init__(self, head = HEAD_WORD_LSB):
 		self.sock = None		# socket object
 		self.send_buf = ''		# send buffer
@@ -304,6 +294,7 @@ class NetStream(object):
 			self.cryptr = rc4crypt(rc4key)
 		return 0
 
+
 #======================================================================
 # NetHost - basic tcp host
 #======================================================================
@@ -312,12 +303,10 @@ NET_LEAVE =		1	# lost connection��(id,tag)   		<hid>
 NET_DATA =		2	# data comming��(id,tag) data...	<hid>
 NET_TIMER =		3	# timer event: (none, none) 
 
-
 #======================================================================
 # NetHost - basic tcp host
 #======================================================================
 class NetHost(object):
-
 	def __init__ (self, head = HEAD_WORD_LSB):
 		self.host = 0
 		self.state = 0

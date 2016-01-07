@@ -13,7 +13,6 @@ class Board(QtGui.QWidget):
     boardBackgroundPixmap = None
     blackChessPixmap = None
     whiteChessPixmap = None
-
     currentSide = CellState.WHITE
 
     def initCellStates(self):

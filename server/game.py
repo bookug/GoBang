@@ -16,13 +16,13 @@ class Desk(object):
         self.isPlaying = False
 
     def addPlayer(self, player):
-        if(len(self.players) < 2):
-            if(not self.players.has_key(player.connectID)):
+        if (len(self.players) < 2):
+            if (not self.players.has_key(player.connectID)):
                 print "---------------------------------------"
                 print "Adding players:",player.connectID
                 print self.players
                 print "---------------------------------------"
-                if(type(player) == type({})):
+                if (type(player) == type({})):
                     print "AddPlayer Dict"
                     self.players[player.connectID] = player
                 else:
@@ -52,14 +52,14 @@ class Desk(object):
             return False
 
     def play(self):
-        if(len(self.players) == 2 and self.isPlaying == False):
+        if (len(self.players) == 2 and self.isPlaying == False):
             self.isPlaying = True
             return True
         else:
             return False
 
     def end(self):
-        if(self.isPlaying == True):
+        if (self.isPlaying == True):
             self.isPlaying = False
             return True
         else:
@@ -171,7 +171,7 @@ class Room(object):
 
     def startToPlay(self):
         self.whosTurn = self.startTurn
-        if(self.startTurn == PlayerSide.WHITE):
+        if (self.startTurn == PlayerSide.WHITE):
             self.startTurn = PlayerSide.BLACK
         else:
             self.startTurn = PlayerSide.WHITE
@@ -201,7 +201,7 @@ class Room(object):
             colNum = step['col_num']
             if self.players[connectID]['state'] == PlayerState.TAKING_CHESS:
                 if side == self.whosTurn:
-                    if(self.chessCells[rowNum][colNum] == CellState.EMPTY):
+                    if (self.chessCells[rowNum][colNum] == CellState.EMPTY):
                         self.chessCells[rowNum][colNum] = side
                         self.addStepToStepList(side,rowNum,colNum)
                         self.players[connectID]['state'] = PlayerState.WAITING_FOR_TAKING

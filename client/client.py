@@ -91,7 +91,7 @@ class Client(NetStream, QtCore.QObject):
                         self.isAlive = False
                     messageString = self.recv()
                     #drop empty Message
-                    if(messageString == ''):
+                    if (messageString == ''):
                         continue
                     else:
                         print "Message:",messageString

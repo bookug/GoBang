@@ -348,7 +348,7 @@ class Hall(QWidget):
             #print "Updating Desk ",rowNum,",",colNum,":",playersNum,"---",isPlaying
             desk = self.createDesk(rowNum,colNum)
 
-            if(playersNum == 0):
+            if (playersNum == 0):
                 desk.state = GameState.EMPTY
             elif playersNum == 1:
                 desk.state = GameState.ONLY_LEFT_PERSON_WAITING

@@ -54,7 +54,7 @@ class Player:
     #        raise Exception("The Player has no player ID")
     #    record = self.server.database.runSQL('SELECT nickname,password,win_time,lose_time,draw_time,create_time FROM user WHERE id = %d'%self.playerID, DBState.FETCH_ONE)
     #    #record = cursor.fetchone()
-    #    if(record == None):
+    #    if (record == None):
     #        raise Exception("Update Player Info With ID From Database failed!")
     #    self.nickname,self.password,self.winTime,self.loseTime,self.drawTime,self.createTime = record
 
@@ -69,7 +69,7 @@ class Player:
             #print "the record is " ,record
             #raw_input()
             #record = cursor.fetchone()
-            if(record == None):
+            if (record == None):
                 raise Exception("Update Player Info With nickname From Database failed!")
             self.playerID, self.password, self.winTime, self.loseTime, self.drawTime, self.createTime = record
         except BaseException,e:

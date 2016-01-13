@@ -18,6 +18,7 @@ except AttributeError:
     def _translate(context, text, disambig):
         return QtGui.QApplication.translate(context, text, disambig)
 
+
 class LoginWindow(object):
     def setupUi(self, LoginWindow):
         LoginWindow.setObjectName(_fromUtf8("LoginWindow"))
@@ -102,14 +103,15 @@ class LoginWindow(object):
     def retranslateUi(self, LoginWindow):
         LoginWindow.setWindowTitle(_translate("LoginWindow", "Form", None))
         self.label.setText(_translate("LoginWindow", "server IP", None))
-        self.label_2.setText(_translate("LoginWindow", "port address", None))
-        self.label_3.setText(_translate("LoginWindow", "nickname", None))
+        self.label_2.setText(_translate("LoginWindow", "port", None))
+        self.label_3.setText(_translate("LoginWindow", "name", None))
         self.loginButton.setText(_translate("LoginWindow", "login", None))
         self.PortNumberText.setText(_translate("LoginWindow", "4829", None))
         self.ServerIPText.setText(_translate("LoginWindow", "123.57.165.67", None))
         self.NicknameText.setText(_translate("LoginWindow", "bookug", None))
         self.label_4.setText(_translate("LoginWindow", "passwd", None))
         self.PasswordText.setText(_translate("LoginWindow", "12345678", None))
+
 
 class HallWindow(object):
     def setupUi(self, HallWindow):
@@ -231,6 +233,7 @@ class HallWindow(object):
         self.actionSendMessage.setText(_translate("HallWindow", "SendMessage", None))
         self.actionSendMessage.setToolTip(_translate("HallWindow", "send message", None))
         self.actionSendMessage.setShortcut(_translate("HallWindow", "Ctrl+Return", None))
+
 
 class RoomWindow(object):
     def setupUi(self, RoomWindow):

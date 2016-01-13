@@ -308,7 +308,7 @@ NET_TIMER =		3	# timer event: (none, none)
 #======================================================================
 class NetHost(object):
 	def __init__ (self, head = HEAD_WORD_LSB):
-		self.host = 0
+		#self.host = 0
 		self.state = 0
 		self.clients = []
 		self.index = 1

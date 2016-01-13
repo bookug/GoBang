@@ -86,7 +86,7 @@ class Database(object):
                           )")
             cursor.close()
             connection.close()
-        except BaseException,e:
+        except BaseException, e:
             print 'Error while creating DB tables'
             print e
 

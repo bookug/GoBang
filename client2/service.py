@@ -30,7 +30,7 @@ class Service(QObject):
             self.register(commandID,CommandDict[commandID])
         return 0
 
-from board import PlayerState, PlayerSide
+from util import PlayerState, PlayerSide
 
 class RoomService(Service):
     serviceID = 1003
